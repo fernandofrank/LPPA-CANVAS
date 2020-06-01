@@ -1,0 +1,114 @@
+.wrapper {
+    display: flex;
+    justify-content: space-between;
+    height: 100vh;
+    width: 100%;
+}
+.textArea{
+    display: flex;
+    flex-direction: column;
+    align-self: flex-start;
+}
+.cellphone{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-self: center;
+    margin-right: 40%;
+    border-radius: 70px;
+    border: 20px solid #cccccc;
+    box-shadow: 0 0 40px -10px #000;
+    background: #9B9B96;
+}
+h3{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-top: 40px;
+    color: #000000;
+}
+.screen, .screen p{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-self: center;
+    width: 100%;
+}
+.keyboard{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-self: center;
+    width: 100%;
+    background-color: #cccccc;
+}
+button{
+    border-radius: 8%;
+    box-shadow: 0 0 30px -10px #000;
+    background-color: #cccccc;
+    padding: 10%;
+    margin: 0.2px;
+    border: none;
+}
+.arrow{
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 10%;
+}
+.up{
+    transform: rotate(-135deg);
+    -webkit-transform: rotate(-135deg);
+}
+
+.down{
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+}
+.upButtons{
+    display: flex;
+    flex-direction: row;
+    font-size: 40px;
+}
+.leftButtons,.rightButtons{
+    display: flex;
+    flex-direction: column;
+    width: 33%;
+}
+.off{
+    color: #cc0000;
+}
+.bar{
+    color:#0000cc;
+}
+.centerButton{
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    width: 33%;
+}
+.centerButton button{
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    padding: 25% 21% 60% 30%;
+    border-radius: 8%;
+    background-color: #cccccc;
+    border: none;
+}
+.numbers{
+    display: flex;
+    flex-direction: row;
+    font-size: 30px;
+}
+.leftButtonsNumbers,.centerButtonNumbers,.rightButtonsNumbers{
+    display: flex;
+    flex-direction: column;
+    width: 33%;
+}
+.buttonBottomLeft{
+    border-radius: 0 0 0 40px;
+}
+.buttonBottomRight{
+    border-radius: 0 0 40px 0;
+}
