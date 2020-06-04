@@ -20,18 +20,62 @@
         scenes = [],
         mainScene = null,
         gameScene = null,
-        // highscoresScene = null,
         body = [],
         food = null,
         wall = [],
-        //highscores = [],
-        //posHighscore = 10,
+        wall = new Array(),
         dir = 0,
         score = 0,
         iBody = new Image(),
         iFood = new Image(),
         aEat = new Audio(),
         aDie = new Audio();
+    // Main Scene
+    mainScene = new Scene();
+    mainScene.paint = function (ctx) {
+        // Clean canvas
+        ctx.fillStyle = '#71856E';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        // Draw title
+        ctx.fillStyle = '#fff';
+        ctx.textAlign = 'center';
+        ctx.fillText('SNAKE', 150, 60);
+        ctx.fillText('Press Enter', 150, 90);
+    };
+    mainScene.act = function () {
+        // Load next scene
+        if (lastPress === KEY_ENTER) {
+            loadScene(gameScene);
+            lastPress = null;
+        }
+    };
+    // Game Scene
+    gameScene = new Scene();
+    gameScene.load = function () {
+        score = 0;
+        dir = 1;
+        body.length = 0;
+        body.push(new Rectangle(40, 40, 10, 10));
+        body.push(new Rectangle(0, 0, 10, 10));
+        body.push(new Rectangle(0, 0, 10, 10));
+        food.x = random(canvas.width / 10 - 1) * 10;
+        food.y = random(canvas.height / 10 - 1) * 10;
+        gameover = false;
+    };
+    function Scene() {
+        this.id = scenes.length;
+        scenes.push(this);
+    }
+    Scene.prototype = {
+        constructor: Scene,
+        load: function () { },
+        paint: function (ctx) { },
+        act: function () { }
+    };
+    function loadScene(scene) {
+        currentScene = scene.id;
+        scenes[currentScene].load();
+    }
     window.requestAnimationFrame = (function () {
         return window.requestAnimationFrame ||
             window.mozRequestAnimationFrame ||
@@ -52,34 +96,9 @@
         this.width = (width === undefined) ? 0 : width;
         this.height = (height === undefined) ? this.width : height;
     }
-    function Scene() {
-        this.id = scenes.length;
-        scenes.push(this);
-    }
-    Scene.prototype = {
-        constructor: Scene,
-        load: function () { },
-        paint: function (ctx) { },
-        act: function () { }
-    };
-    function loadScene(scene) {
-        currentScene = scene.id;
-        scenes[currentScene].load();
-    }
     function random(max) {
         return ~~(Math.random() * max);
     }
-    /*function addHighscore(score) {
-        posHighscore = 0;
-        while (highscores[posHighscore] > score && posHighscore < highscores.length) {
-            posHighscore += 1;
-        }
-        highscores.splice(posHighscore, 0, score);
-        if (highscores.length > 10) {
-            highscores.length = 10;
-        }
-        localStorage.highscores = highscores.join(',');
-    }*/
     function repaint() {
         window.requestAnimationFrame(repaint);
         if (scenes.length) {
@@ -92,67 +111,6 @@
             scenes[currentScene].act();
         }
     }
-    // Main Scene
-    mainScene = new Scene();
-    mainScene.paint = function (ctx) {
-        // Clean canvas
-        ctx.fillStyle = '#71856E';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        // Draw title
-        ctx.fillStyle = '#fff';
-        ctx.textAlign = 'center';
-        ctx.fillText('SNAKE', 150, 60);
-        ctx.fillText('Press Enter', 150, 90);
-    };
-    mainScene.act = function () {
-        // Load next scene
-        if (lastPress === KEY_ENTER) {
-            loadScene(gameScene);
-            lastPress = null;
-        }
-    };
-    /*// Highscore Scene
-    highscoresScene = new Scene();
-    highscoresScene.paint = function (ctx) {
-        var i = 0,
-            l = 0;
-        // Clean canvas
-        ctx.fillStyle = '#71856E';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        // Draw title
-        ctx.fillStyle = '#fff';
-        ctx.textAlign = 'center';
-        ctx.fillText('HIGH SCORES', 150, 30);
-        // Draw high scores
-        ctx.textAlign = 'right';
-        for (i = 0, l = highscores.length; i < l; i += 1) {
-            if (i === posHighscore) {
-                ctx.fillText('*' + highscores[i], 180, 40 + i * 10);
-            } else {
-                ctx.fillText(highscores[i], 180, 40 + i * 10);
-            }
-        }
-    };
-    highscoresScene.act = function () {
-        // Load next scene
-        if (lastPress === KEY_ENTER) {
-            loadScene(gameScene);
-            lastPress = null;
-        }
-    };*/
-    // Game Scene
-    gameScene = new Scene();
-    gameScene.load = function () {
-        score = 0;
-        dir = 1;
-        body.length = 0;
-        body.push(new Rectangle(40, 40, 10, 10));
-        body.push(new Rectangle(0, 0, 10, 10));
-        body.push(new Rectangle(0, 0, 10, 10));
-        food.x = random(canvas.width / 10 - 1) * 10;
-        food.y = random(canvas.height / 10 - 1) * 10;
-        gameover = false;
-    };
     gameScene.paint = function (ctx) {
         var i = 0,
             l = 0;
@@ -341,14 +299,16 @@
         // Create food
         food = new Rectangle(80, 80, 10, 10);
         // Create walls
-        wall.push(new Rectangle(50, 50, 10, 10));
-        wall.push(new Rectangle(50, 100, 10, 10));
-        wall.push(new Rectangle(100, 50, 10, 10));
-        wall.push(new Rectangle(100, 100, 10, 10));
-        // Load saved highscores
-        /*if (localStorage.highscores) {
-            highscores = localStorage.highscores.split(',');
-        }*/
+        // Left walls
+        wall.push(new Rectangle(0, 0, 120, 10));
+        wall.push(new Rectangle(0, 0, 10, 50));
+        wall.push(new Rectangle(0, 140, 120, 10));
+        wall.push(new Rectangle(0, 100, 10, 40));
+        // Right walls
+        wall.push(new Rectangle(290, 0, 10, 50));
+        wall.push(new Rectangle(200, 0, 100, 10));
+        wall.push(new Rectangle(200, 140, 100, 10));
+        wall.push(new Rectangle(290, 100, 10, 50));
         // Start game
         run();
         repaint();
