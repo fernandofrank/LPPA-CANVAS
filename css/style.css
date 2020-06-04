@@ -1,7 +1,6 @@
-body{
+body {
     background-color: #DDF8E8; 
 }
-
 .wrapper {
     display: flex;
     justify-content: center;
