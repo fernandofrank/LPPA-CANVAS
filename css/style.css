@@ -40,9 +40,6 @@ body{
     background: #9B9B96;
 }
 .cellphone h3{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
     margin-top: 40px;
     color: #000000;
 }
@@ -73,7 +70,7 @@ button{
     background-color: #cccccc;
 }
 button:hover{
-    background-color: #cccccc80;
+    background-color: #cccccc60;
 }
 .arrow{
     display: inline-block;
