@@ -20,12 +20,12 @@
         scenes = [],
         mainScene = null,
         gameScene = null,
-        highscoresScene = null,
+        // highscoresScene = null,
         body = [],
         food = null,
         wall = [],
-        highscores = [],
-        posHighscore = 10,
+        //highscores = [],
+        //posHighscore = 10,
         dir = 0,
         score = 0,
         iBody = new Image(),
@@ -69,7 +69,7 @@
     function random(max) {
         return ~~(Math.random() * max);
     }
-    function addHighscore(score) {
+    /*function addHighscore(score) {
         posHighscore = 0;
         while (highscores[posHighscore] > score && posHighscore < highscores.length) {
             posHighscore += 1;
@@ -79,7 +79,7 @@
             highscores.length = 10;
         }
         localStorage.highscores = highscores.join(',');
-    }
+    }*/
     function repaint() {
         window.requestAnimationFrame(repaint);
         if (scenes.length) {
@@ -87,7 +87,7 @@
         }
     }
     function run() {
-        setTimeout(run, 60);
+        setTimeout(run, 90);
         if (scenes.length) {
             scenes[currentScene].act();
         }
@@ -107,11 +107,11 @@
     mainScene.act = function () {
         // Load next scene
         if (lastPress === KEY_ENTER) {
-            loadScene(highscoresScene);
+            loadScene(gameScene);
             lastPress = null;
         }
     };
-    // Highscore Scene
+    /*// Highscore Scene
     highscoresScene = new Scene();
     highscoresScene.paint = function (ctx) {
         var i = 0,
@@ -139,7 +139,7 @@
             loadScene(gameScene);
             lastPress = null;
         }
-    };
+    };*/
     // Game Scene
     gameScene = new Scene();
     gameScene.load = function () {
@@ -181,6 +181,7 @@
             ctx.textAlign = 'center';
             if (gameover) {
                 ctx.fillText('GAME OVER', 150, 75);
+                ctx.fillText('SCORE:' + score, 150, 90);
             } else {
                 ctx.fillText('PAUSE', 150, 75);
             }
@@ -223,7 +224,7 @@
         if (!pause) {
             // GameOver Reset
             if (gameover) {
-                loadScene(highscoresScene);
+                loadScene(mainScene);
             }
             // Move Body
             for (i = body.length - 1; i > 0; i -= 1) {
@@ -295,8 +296,9 @@
                 if (body[0].intersects(body[i])) {
                     gameover = true;
                     pause = true;
+                    //addHighscore(score);
                     aDie.play();
-                    addHighscore(score);
+
                 }
             }
         }
@@ -344,9 +346,9 @@
         wall.push(new Rectangle(100, 50, 10, 10));
         wall.push(new Rectangle(100, 100, 10, 10));
         // Load saved highscores
-        if (localStorage.highscores) {
+        /*if (localStorage.highscores) {
             highscores = localStorage.highscores.split(',');
-        }
+        }*/
         // Start game
         run();
         repaint();
